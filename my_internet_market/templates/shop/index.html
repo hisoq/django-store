@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Главная страница :: Магазины</title>
+
+</head>
+<body>
+    <h1>Список магазинов:</h1>
+    <div>
+        {% for shop in shops %}
+        <a href="/shop/{{ shop.id }}"> {{ shop.brand }}</a>
+        {% endfor %}
+
+    </div>
+</body>
+</html>
