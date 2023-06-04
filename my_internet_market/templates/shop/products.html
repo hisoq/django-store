@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Продукты</title>
+</head>
+<body>
+    <div>
+         <h1>Список продуктов:</h1>
+
+        {% for product in products %}
+        <p> {{ product.title }} </p>
+        <p> {{ product.price }} Pуб. </p>
+        {% endfor %}
+        <a href="{% url 'create_product' %}">Добавить продукт</a>
+    </div>
+
+</body>
+</html>
