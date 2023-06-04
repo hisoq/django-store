@@ -1,10 +1,11 @@
 from django.db import models
+import uuid
 
 class Shop(models.Model):
-
-    products = models.ManyToManyField('Product', null=True, blank=True, related_name='Products')
-    brand = models.ForeignKey('Brand', on_delete=models.PROTECT, null=True, blank=True, verbose_name='Франшиза')
-    name = models.CharField(max_length=20, primary_key=True, unique=True, verbose_name='Название магазина')
+    shop_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
+    products = models.ManyToManyField('Product', related_name='shops')
+    brand = models.ForeignKey('Brand', on_delete=models.PROTECT, verbose_name='Франшиза')
+    name = models.CharField(max_length=20, unique=True, verbose_name='Название магазина')
     #slug = models.SlugField(max_length=20, unique=True, db_index=True, verbose_name='URL')
     addres = models.CharField(max_length=20, null=False,  verbose_name="Адрес")
 
@@ -18,7 +19,7 @@ class Shop(models.Model):
 
 class Product(models.Model):
 
-    CREALCE = 'крупы'  # cделать 2 эндпоинта во views где 1 выводит все магазины, которые являются ссылками и по нажатию на них мы переходим туда где список всех магазинов
+    CREALCE = 'крупы'
     MILK = 'молоко'
     MEAT = 'мясо'
     FISH = 'рыба'

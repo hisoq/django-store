@@ -1,10 +1,9 @@
 from django.urls import path
-from .views import index, products
+from.views import index, products, ProductView
 
 urlpatterns = [
     path('index/', index),
-    path('products/', products),
-    # path('add/', ShopCreateView.as_view(), name='add'),
-    path('<int:shop_id>/', products, name='products'),
+    path('create_product/', ProductView.as_view(), name='create_product'),
+    path('<str:shop_id>/', products, name='products'), #get параметр
 ]
 #'<int:shop_id>/ - get параметр

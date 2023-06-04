@@ -9,7 +9,7 @@
     <h1>Список магазинов:</h1>
     <div>
         {% for shop in shops %}
-        <a href="/shop/{{ shop.id }}"> {{ shop.brand }}</a>
+        <a href="/shop/{{shop.pk}}">{{ shop.brand }}</a>
         {% endfor %}
 
     </div>

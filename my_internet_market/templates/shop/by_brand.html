@@ -2,26 +2,10 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>{{ current_brand.name }} :: Список магазинов</title>
+    <title>Список магазинов</title>
 </head>
 <body>
-    <h1>Магазины</h1>
-    <h2>Франшиза: {{ current_brand.name }}</h2>
-    <div>
-        <a href="/shop/">Магазины:</a>
-        <a href="{% url 'add' %}">Добавить</a>
-        {% for brand in brands %}
-        <a href="/shop/{{ brand.pk }}/">{{ brand.name }}</a>
-        {% endfor %}
-    </div>
-    {% for product in bbs %}
-    <div>
-        <h2>{{ product.title }}</h2>
-        <p>{{ product.category }}</p>
-        <p>{{ product.price }}</p>
-        <p>{{ product.shipment|date"d.m.Y H:i:s" }}</p>
-    </div>
-    {% endfor %}
+
 
 </body>
 </html>
