@@ -6,13 +6,39 @@
 </head>
 <body>
     <div>
-         <h1>Список продуктов:</h1>
+         <h1>Список товаров:</h1>
 
         {% for product in products %}
-        <p> {{ product.title }} </p>
-        <p> {{ product.price }} Pуб. </p>
+        <table border="1">
+            <tr>
+                <th>Название товара:</th>
+                <th>Описание товара:</th>
+                <th>Количество товара:</th>
+                <th>Цена товара:</th>
+            </tr>
+
+            <tr>
+
+        <td><p> {{ product.title }} </p></td>
+        <td><p> {{ product.content }} </p></td>
+        <td><p> {{ product.multiple }} </p></td>
+        <td><p> {{ product.price }} Pуб. </p></td>
+        </tr>
+        </table>
+         <button>
+            <a href="{% url 'update_product' product.pk %}" style="color: black">Обновить продукт</a>
+        </button>
+          <button>
+            <a href="{% url 'delete_product' product.pk %}" style="color: black">Удалить продукт</a>
+        </button>
         {% endfor %}
-        <a href="{% url 'create_product' %}">Добавить продукт</a>
+
+        <button>
+            <a href="{% url 'create_product' %}" style="color: black">Добавить продукт</a>
+        </button>
+
+
+
     </div>
 
 </body>

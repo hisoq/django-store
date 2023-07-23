@@ -2,13 +2,14 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Добавление товара</title>
+    <title>Обновление товара</title>
 </head>
 <body>
-    <form method="post">
+    <form method="POST">
+
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Добавить">
+        <input type="submit" value="Обновить">
 
 
 

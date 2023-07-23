@@ -41,7 +41,7 @@ class Product(models.Model):
     content = models.TextField(null=True, blank=True, verbose_name='Описание товара')
     price = models.IntegerField(null=True, blank=True, verbose_name='Цена за еденицу')
     shipment = models.DateTimeField(auto_now_add=True, db_index=True, verbose_name="Дата поставки")
-
+    multiple = models.PositiveIntegerField(null=True, blank=True, default=1, verbose_name='Количество товара')
     class Meta:
         db_table = 'Product'
         verbose_name_plural = 'Продукты'
@@ -65,7 +65,7 @@ class Brand(models.Model):
     )
 
     name = models.CharField(max_length=20, db_index=True, verbose_name='Франшиза')
-    typeshop = models.CharField(max_length=20, choices=TYPE_SHOP, default=PRODUCT, verbose_name='Тип мигазина')
+    type_shop = models.CharField(max_length=20, choices=TYPE_SHOP, default=PRODUCT, verbose_name='Тип мигазина')
 
     class Meta:
         db_table = 'Brand'
