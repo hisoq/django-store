@@ -17,6 +17,7 @@
         {% if page.has_next %}
         <a href="?page={{ page.next_page_number }}">{{ page.next_page_number }}</a>
         {% endif %}
+        <a href="{% url 'logout' %}">Выйти</a>
     </div>
 
 </body>

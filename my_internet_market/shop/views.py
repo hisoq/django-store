@@ -1,12 +1,17 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect
-from django.views.generic.edit import CreateView, UpdateView, DeleteView, View
+from django.views.generic.edit import CreateView, UpdateView, DeleteView, View, FormView
 from .models import Shop, Product
-from .forms import ProductForm, ProductUpdateForm
+from .forms import ProductForm, ProductUpdateForm, ProductDeleteForm, CustomPasswordChangeForm
 from django.urls import reverse, reverse_lazy
 from django.views.decorators.csrf import csrf_exempt
 from django.core.paginator import Paginator
+from django.core.exceptions import NON_FIELD_ERRORS
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib.auth.views import PasswordChangeView
+from django.contrib.auth.decorators import login_required
 
+@login_required()
 def index(request):  #  Заменить на ListView
     shops = Shop.objects.select_related('brand').all()
     paginator = Paginator(shops, 2)
@@ -28,7 +33,7 @@ class ProductView(CreateView):
     form_class = ProductForm
     success_url = '/shop/index'
 
-    def form_valid(self, form):    #сюда гетпараметр
+    def form_valid(self, form):
 
         price = form.cleaned_data.get('price')
         if price <= 0:
@@ -42,24 +47,39 @@ class ProductView(CreateView):
 
 class ProductUpdateView(UpdateView):
     model = Product
-    fields = ['title', 'price', 'content', 'multiple']
+    # fields = ['title', 'price', 'content', 'multiple']
+    form_class = ProductUpdateForm
     template_name = 'shop/update_product.html'
     success_url = reverse_lazy('index')
 
     def form_valid(self, form):
         return super().form_valid(form)
-class ProductDeleteView(DeleteView):
-    model = Product
-    template_name = 'shop/delete_product.html'
-    success_url = reverse_lazy('index')
-
-    def form_valid(self, form):
-
-        return super().form_valid(form)
 
 
+def delete(request, pk):
+    product = get_object_or_404(Product, pk=pk)
+    if request.method == 'POST':
+        form = ProductDeleteForm(request.POST, instance=product)  # связывает форму с моделью
+        if 'no' in request.POST:
+            return redirect('index')
+        elif 'yes' in request.POST and form.is_valid():
+            product.delete()
+            return redirect('index')
 
+    form = ProductForm(instance=product)
+    return render(request, 'shop/delete_product.html', {'form': form, 'product': product})
 
+class PasswordChangeView(LoginRequiredMixin, PasswordChangeView): # проверка на то что пользователь авторизован
+    template_name = 'shop/change_password.html'
+    form_class = CustomPasswordChangeForm
+    success_url = reverse_lazy('change_password_done')
+
+    def get_form_kwargs(self):
+        kwargs = super(PasswordChangeView, self).get_form_kwargs()
+        kwargs['user'] = self.request.user
+        return kwargs
+def change_password_done(request):
+    return render(request, 'shop/change_password_done.html')
 
 
 
